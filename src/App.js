@@ -9,27 +9,34 @@ function App() {
     { completed: false, label: "Learn JS" },
   ]);
 
-
-
   const taskElements = tasks.map((task, index) => {
     const onClickTasks = () => {
-      const updatedTasks =[];
-      tasks.forEach(taskToUpdate => {
-        if (taskToUpdate === task) {
-          updatedTasks.push({
-            completed: !task.completed,
-            label: task.label,
-          })
-        }
-        else {
-          updatedTasks.push(taskToUpdate);
-        }
-      })
-      setTasks(updatedTasks);
-    }
+      // setTasks(
+      //   tasks.map((taskToUpdate) => {
+      //     if (taskToUpdate === task) {
+      //       return {
+      //         completed: !task.completed,
+      //         label: task.label,
+      //       };
+      //     } else {
+      //       return taskToUpdate;
+      //     }
+      //   })
+      // );
+      setTasks([
+        ...tasks.slice(0, index), 
+        {
+          ...task,
+          completed: !task.completed,
+        },
+        ...tasks.slice(index+1),
+      ])
+    };
     return (
-      <li key={task.label} className={task.completed ? "completed" : null }>
-        <span className="label" onClick={onClickTasks}>{task.label}</span>
+      <li key={task.label} className={task.completed ? "completed" : null}>
+        <span className="label" onClick={onClickTasks}>
+          {task.label}
+        </span>
         <span className="trashcan">🗑️</span>
       </li>
     );
@@ -47,18 +54,14 @@ function App() {
 
   const onTextChange = (event) => {
     setText(event.target.value);
-  }
+  };
 
   return (
     <div className="App">
       <div class="container">
         <h1>My ToDo</h1>
         <p class="counter">0 completed</p>
-        <input
-          type="text"
-          value={text}
-          onChange={ onTextChange }
-        />
+        <input type="text" value={text} onChange={onTextChange} />
         <button onClick={onClickOk}>OK</button>
         <small class="error"></small>
         <ul>{taskElements}</ul>
