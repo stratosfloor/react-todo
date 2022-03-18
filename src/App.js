@@ -4,7 +4,6 @@ import TaskInput from "./TaskInput";
 import TaskList from "./TaskList";
 import { useState, useEffect } from "react";
 
-
 function App() {
   const [tasks, setTasks] = useState([
     { completed: true, label: "Learn HTML" },
@@ -31,8 +30,8 @@ function App() {
   useEffect(() => {
     localStorage.setItem("storedTasks", JSON.stringify(tasks));
   }, [tasks]);
-  
-  const onSubmit = label => {
+
+  const onSubmit = (label) => {
     setTasks([
       ...tasks,
       {
@@ -40,40 +39,39 @@ function App() {
         completed: false,
       },
     ]);
-  }
+  };
   const onClickTask = (task) => {
-    console.log('du klickade på: ' + task.label);
-          setTasks(
-        tasks.map((taskToUpdate) => {
-          if (taskToUpdate === task) {
-            return {
-              completed: !task.completed,
-              label: task.label,
-            };
-          } else {
-            return taskToUpdate;
-          }
-        })
-      );
-    
-  }
+    setTasks(
+      tasks.map((taskToUpdate) => {
+        if (taskToUpdate === task) {
+          return {
+            completed: !task.completed,
+            label: task.label,
+          };
+        } else {
+          return taskToUpdate;
+        }
+      })
+    );
+  };
 
   const onClickTrashcan = (taskToFilter) => {
-    console.log('Du vill ta bort: ' + taskToFilter.label);
-    setTasks(tasks.filter(toRemove => toRemove !== taskToFilter))
-  }
-  
+    setTasks(tasks.filter((toRemove) => toRemove !== taskToFilter));
+  };
+
   return (
     <div className="App">
       <div className="container">
         <h1>My ToDo</h1>
         <Count tasks={tasks} />
-        <TaskInput onSubmit={onSubmit}/>
-        <TaskList tasks={tasks} onClickTask={onClickTask} onClickTrashcan={onClickTrashcan} />
+        <TaskInput onSubmit={onSubmit} />
+        <TaskList
+          tasks={tasks}
+          onClickTask={onClickTask}
+          onClickTrashcan={onClickTrashcan}
+        />
       </div>
     </div>
-  )
-
-
+  );
 }
 export default App;
