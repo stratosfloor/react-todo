@@ -1,6 +1,7 @@
-function Count() {
+function Count({ tasks }) {
+  const completedCount = tasks.filter(task => task.completed).length
   return (
-    <p className="counter">0 completed</p>
+    <p className="counter">{ completedCount } completed</p>
   );
 }
 
