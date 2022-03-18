@@ -25,7 +25,6 @@ function App() {
     } else {
       setTasks([]);
     }
-    console.log('Effect 2')
   }, []);
 
   // Every render when tasks have changed
@@ -42,13 +41,35 @@ function App() {
       },
     ]);
   }
+  const onClickTask = (task) => {
+    console.log('du klickade på: ' + task.label);
+          setTasks(
+        tasks.map((taskToUpdate) => {
+          if (taskToUpdate === task) {
+            return {
+              completed: !task.completed,
+              label: task.label,
+            };
+          } else {
+            return taskToUpdate;
+          }
+        })
+      );
+    
+  }
+
+  const onClickTrashcan = (taskToFilter) => {
+    console.log('Du vill ta bort: ' + taskToFilter.label);
+    setTasks(tasks.filter(toRemove => toRemove !== taskToFilter))
+  }
+  
   return (
     <div className="App">
       <div className="container">
         <h1>My ToDo</h1>
         <Count tasks={tasks} />
         <TaskInput onSubmit={onSubmit}/>
-        <TaskList tasks={tasks}/>
+        <TaskList tasks={tasks} onClickTask={onClickTask} onClickTrashcan={onClickTrashcan} />
       </div>
     </div>
   )
